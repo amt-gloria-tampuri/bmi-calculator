@@ -98,7 +98,11 @@ var calculateBMI = function () {
     }
 };
 // Check local storage for the selected measurement system and set the default state
-var selectedMeasurement = localStorage.getItem("selectedMeasurement");
+var selectedMeasurement = "metric";
+var storedMeasurement = localStorage.getItem("selectedMeasurement");
+if (storedMeasurement) {
+    selectedMeasurement = storedMeasurement;
+}
 if (selectedMeasurement === "metric") {
     metricRadio.checked = true;
 }
@@ -118,9 +122,9 @@ function calculateNormalWeight(height) {
     //to convert to stone
     // Convert decimal portion of pounds to stones
     var lowerWeightSt = Math.floor(lowerWeightPounds / 14); // Get the whole number of stones
-    var lowerWeightPoundsRemaining = Math.ceil(lowerWeightPounds % 14); // Get the remaining pounds
+    var lowerWeightPoundsRemaining = Math.round(lowerWeightPounds % 14); // Get the remaining pounds
     var upperWeightSt = Math.floor(upperWeightPounds / 14); // Get the whole number of stones
-    var upperWeightPoundsRemaining = Math.ceil(upperWeightPounds % 14);
+    var upperWeightPoundsRemaining = Math.round(upperWeightPounds % 14);
     //    const stRange =`${lowerWeightSt.toFixed(2)} st - ${upperWeightSt.toFixed(2)} st`
     var stRange = "".concat(lowerWeightSt.toFixed(0), " st ").concat(lowerWeightPoundsRemaining.toFixed(2), " lb - ").concat(upperWeightSt.toFixed(0), " st ").concat(upperWeightPoundsRemaining.toFixed(2), " lb");
     return {

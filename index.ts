@@ -119,8 +119,11 @@ const calculateBMI=()=> {
 }
 
 // Check local storage for the selected measurement system and set the default state
-const selectedMeasurement = localStorage.getItem("selectedMeasurement");
-
+let selectedMeasurement="metric";
+const storedMeasurement = localStorage.getItem("selectedMeasurement");
+if (storedMeasurement) {
+    selectedMeasurement = storedMeasurement;
+}
 if (selectedMeasurement === "metric") {
     metricRadio.checked = true;
 }
@@ -147,10 +150,10 @@ function calculateNormalWeight( height: number) {
    //to convert to stone
 // Convert decimal portion of pounds to stones
 const lowerWeightSt = Math.floor(lowerWeightPounds / 14); // Get the whole number of stones
-const lowerWeightPoundsRemaining =Math.ceil(lowerWeightPounds % 14); // Get the remaining pounds
+const lowerWeightPoundsRemaining =Math.round(lowerWeightPounds % 14); // Get the remaining pounds
 
 const upperWeightSt = Math.floor(upperWeightPounds / 14); // Get the whole number of stones
-const upperWeightPoundsRemaining = Math.ceil(upperWeightPounds % 14);
+const upperWeightPoundsRemaining = Math.round(upperWeightPounds % 14);
 
 //    const stRange =`${lowerWeightSt.toFixed(2)} st - ${upperWeightSt.toFixed(2)} st`
 const stRange = `${lowerWeightSt.toFixed(0)} st ${lowerWeightPoundsRemaining.toFixed(2)} lb - ${upperWeightSt.toFixed(0)} st ${upperWeightPoundsRemaining.toFixed(2)} lb`;
