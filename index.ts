@@ -20,18 +20,34 @@ const details = document.querySelector(".details") as HTMLElement
 let bmi: number = 0;
 let heightInMeters:number=0
 
+
+
 // Function to show metric or imperial div based on the selected radio button
-function updateMeasurementSystem() {
-    if (metricRadio.checked) {
-        metricDiv.style.display = "block";
-        imperialDiv.style.display = "none";
-        localStorage.setItem("selectedMeasurement", "metric");
-    } else {
+const updateMeasurementSystem=()=> {
+    if (imperialRadio.checked) {
         metricDiv.style.display = "none";
         imperialDiv.style.display = "block";
         localStorage.setItem("selectedMeasurement", "imperial");
+
+    } else {
+        metricDiv.style.display = "block";
+        imperialDiv.style.display = "none";
+        localStorage.setItem("selectedMeasurement", "metric");
     }
 }
+
+
+// Add event listeners
+metricRadio.addEventListener("change", updateMeasurementSystem);
+imperialRadio.addEventListener("change", updateMeasurementSystem);
+
+
+
+inputForm.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        calculateBMI();
+    }
+});
 
 // Function to calculate BMI based on the selected measurement system
 const calculateBMI=()=> {
@@ -105,20 +121,13 @@ const calculateBMI=()=> {
 // Check local storage for the selected measurement system and set the default state
 const selectedMeasurement = localStorage.getItem("selectedMeasurement");
 
-if (selectedMeasurement === "imperial") {
-    imperialRadio.checked = true;
+if (selectedMeasurement === "metric") {
+    metricRadio.checked = true;
 }
 
 updateMeasurementSystem();
 
-// Add event listeners
-metricRadio.addEventListener("change", updateMeasurementSystem);
-imperialRadio.addEventListener("change", updateMeasurementSystem);
-inputForm.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        calculateBMI();
-    }
-});
+
 
 // Function to calculate the normal weight range based on BMI and height
 function calculateNormalWeight( height: number) {
@@ -138,10 +147,10 @@ function calculateNormalWeight( height: number) {
    //to convert to stone
 // Convert decimal portion of pounds to stones
 const lowerWeightSt = Math.floor(lowerWeightPounds / 14); // Get the whole number of stones
-const lowerWeightPoundsRemaining =( lowerWeightPounds % 14); // Get the remaining pounds
+const lowerWeightPoundsRemaining =Math.ceil(lowerWeightPounds % 14); // Get the remaining pounds
 
 const upperWeightSt = Math.floor(upperWeightPounds / 14); // Get the whole number of stones
-const upperWeightPoundsRemaining = (upperWeightPounds % 14);
+const upperWeightPoundsRemaining = Math.ceil(upperWeightPounds % 14);
 
 //    const stRange =`${lowerWeightSt.toFixed(2)} st - ${upperWeightSt.toFixed(2)} st`
 const stRange = `${lowerWeightSt.toFixed(0)} st ${lowerWeightPoundsRemaining.toFixed(2)} lb - ${upperWeightSt.toFixed(0)} st ${upperWeightPoundsRemaining.toFixed(2)} lb`;

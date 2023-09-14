@@ -17,18 +17,26 @@ var details = document.querySelector(".details");
 var bmi = 0;
 var heightInMeters = 0;
 // Function to show metric or imperial div based on the selected radio button
-function updateMeasurementSystem() {
-    if (metricRadio.checked) {
-        metricDiv.style.display = "block";
-        imperialDiv.style.display = "none";
-        localStorage.setItem("selectedMeasurement", "metric");
-    }
-    else {
+var updateMeasurementSystem = function () {
+    if (imperialRadio.checked) {
         metricDiv.style.display = "none";
         imperialDiv.style.display = "block";
         localStorage.setItem("selectedMeasurement", "imperial");
     }
-}
+    else {
+        metricDiv.style.display = "block";
+        imperialDiv.style.display = "none";
+        localStorage.setItem("selectedMeasurement", "metric");
+    }
+};
+// Add event listeners
+metricRadio.addEventListener("change", updateMeasurementSystem);
+imperialRadio.addEventListener("change", updateMeasurementSystem);
+inputForm.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        calculateBMI();
+    }
+});
 // Function to calculate BMI based on the selected measurement system
 var calculateBMI = function () {
     var selectedMeasurement = localStorage.getItem("selectedMeasurement");
@@ -91,18 +99,10 @@ var calculateBMI = function () {
 };
 // Check local storage for the selected measurement system and set the default state
 var selectedMeasurement = localStorage.getItem("selectedMeasurement");
-if (selectedMeasurement === "imperial") {
-    imperialRadio.checked = true;
+if (selectedMeasurement === "metric") {
+    metricRadio.checked = true;
 }
 updateMeasurementSystem();
-// Add event listeners
-metricRadio.addEventListener("change", updateMeasurementSystem);
-imperialRadio.addEventListener("change", updateMeasurementSystem);
-inputForm.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-        calculateBMI();
-    }
-});
 // Function to calculate the normal weight range based on BMI and height
 function calculateNormalWeight(height) {
     // Define the lower and upper bounds of the normal BMI range
@@ -118,9 +118,9 @@ function calculateNormalWeight(height) {
     //to convert to stone
     // Convert decimal portion of pounds to stones
     var lowerWeightSt = Math.floor(lowerWeightPounds / 14); // Get the whole number of stones
-    var lowerWeightPoundsRemaining = (lowerWeightPounds % 14); // Get the remaining pounds
+    var lowerWeightPoundsRemaining = Math.ceil(lowerWeightPounds % 14); // Get the remaining pounds
     var upperWeightSt = Math.floor(upperWeightPounds / 14); // Get the whole number of stones
-    var upperWeightPoundsRemaining = (upperWeightPounds % 14);
+    var upperWeightPoundsRemaining = Math.ceil(upperWeightPounds % 14);
     //    const stRange =`${lowerWeightSt.toFixed(2)} st - ${upperWeightSt.toFixed(2)} st`
     var stRange = "".concat(lowerWeightSt.toFixed(0), " st ").concat(lowerWeightPoundsRemaining.toFixed(2), " lb - ").concat(upperWeightSt.toFixed(0), " st ").concat(upperWeightPoundsRemaining.toFixed(2), " lb");
     return {

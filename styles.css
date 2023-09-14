@@ -326,7 +326,9 @@ font-weight: 700;
     color: white;
     margin: 1rem 0;
 }
-
+.imperial{
+    display: none;
+}
 
 .imperialHeight{
     display: flex;
@@ -532,5 +534,11 @@ font-weight: 700;
         flex-direction: column;
         gap: 0;
         align-items: flex-start;
+    }
+    .flexMetric{
+        flex-direction: column;
+    }
+    .flexMetric .sectionF{
+        width: 100%;
     }
 }
