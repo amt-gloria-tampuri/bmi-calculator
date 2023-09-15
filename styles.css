@@ -1,8 +1,8 @@
 @font-face {
     font-family: 'InterFont';
-    src: url('/assets/fonts/static/Inter-Regular.ttf') format('ttf'),
-         url('/assets/fonts/static/Inter-SemiBold.ttf') format('ttf'),
-         url('/assets/fonts/Inter-VariableFont_slnt\,wght.ttf') format('ttf');
+    src: url('/assets/fonts/static/Inter-Regular.ttf') format('truetype'),
+         url('/assets/fonts/static/Inter-SemiBold.ttf') format('truetype'),
+         url('/assets/fonts/Inter-VariableFont_slnt\,wght.ttf') format('truetype');
   }
   
 
