@@ -1,4 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+@font-face {
+    font-family: 'InterFont';
+    src: url('/assets/fonts/static/Inter-Regular.ttf') format('ttf'),
+         url('/assets/fonts/static/Inter-SemiBold.ttf') format('ttf'),
+         url('/assets/fonts/Inter-VariableFont_slnt\,wght.ttf') format('ttf');
+
+    /* You can specify other font properties here, like font-weight and font-style */
+  }
+  
+
+/* @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap'); */
 *, *::before, *::after {
 box-sizing: border-box;
 }
@@ -7,7 +17,7 @@ box-sizing: border-box;
 }
 html, body {
 height: 100%;
-font-family: 'Open Sans', sans-serif;
+font-family: 'InterFont', sans-serif;
 }
 body {
 line-height: 1.5;
