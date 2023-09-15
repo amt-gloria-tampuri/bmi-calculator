@@ -364,9 +364,12 @@ font-weight: 700;
     font-size: 50px;
     font-weight: 700;
 }
+
+
 @media(max-width:800px){
     .part-one{
         width: 100%;
+        /* margin-bottom: 10rem; */
     }
     .logo{
         display: block;
@@ -396,7 +399,7 @@ font-weight: 700;
         right: 5%;
     }
     .part-two{
-        margin-top: 25rem;
+        margin-top: 30rem;
         width: 95%;
         align-items: center;
     }
