@@ -144,10 +144,10 @@ function calculateNormalWeight( height: number) {
    //to convert to stone
 // Convert decimal portion of pounds to stones
 const lowerWeightSt = Math.floor(lowerWeightPounds / 14); // Get the whole number of stones
-const lowerWeightPoundsRemaining =Math.round(lowerWeightPounds % 14); // Get the remaining pounds
+const lowerWeightPoundsRemaining =Math.floor(lowerWeightPounds % 14); // Get the remaining pounds
 
 const upperWeightSt = Math.floor(upperWeightPounds / 14); // Get the whole number of stones
-const upperWeightPoundsRemaining = Math.round(upperWeightPounds % 14);
+const upperWeightPoundsRemaining = Math.floor(upperWeightPounds % 14);
 
 
 const stRange = `${lowerWeightSt}st ${lowerWeightPoundsRemaining}lbs - ${upperWeightSt}st ${upperWeightPoundsRemaining}lbs`;

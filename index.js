@@ -117,9 +117,9 @@ function calculateNormalWeight(height) {
     //to convert to stone
     // Convert decimal portion of pounds to stones
     var lowerWeightSt = Math.floor(lowerWeightPounds / 14); // Get the whole number of stones
-    var lowerWeightPoundsRemaining = Math.round(lowerWeightPounds % 14); // Get the remaining pounds
+    var lowerWeightPoundsRemaining = Math.floor(lowerWeightPounds % 14); // Get the remaining pounds
     var upperWeightSt = Math.floor(upperWeightPounds / 14); // Get the whole number of stones
-    var upperWeightPoundsRemaining = Math.round(upperWeightPounds % 14);
+    var upperWeightPoundsRemaining = Math.floor(upperWeightPounds % 14);
     var stRange = "".concat(lowerWeightSt, "st ").concat(lowerWeightPoundsRemaining, "lbs - ").concat(upperWeightSt, "st ").concat(upperWeightPoundsRemaining, "lbs");
     return {
         kgRange: kgRange,
