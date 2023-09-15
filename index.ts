@@ -28,11 +28,17 @@ const updateMeasurementSystem=()=> {
         metricDiv.style.display = "none";
         imperialDiv.style.display = "block";
         localStorage.setItem("selectedMeasurement", "imperial");
+        metricHeight.value=''
+        metricWeight.value=''
 
     } else {
         metricDiv.style.display = "block";
         imperialDiv.style.display = "none";
         localStorage.setItem("selectedMeasurement", "metric");
+        heightFeet.value=''
+        heightInches.value=''
+        weightStone.value=''
+        weightPounds.value=''
     }
 }
 
@@ -70,8 +76,10 @@ const calculateBMI = () => {
         const stone = parseFloat(weightStone.value);
         const pounds = parseFloat(weightPounds.value);
 
+    
         const heightInCm = (feet * 30.48) + (inches * 2.54);
-        const weightInKg = (stone * 6.35) + (pounds * 0.4536);
+        const weightInKg = (stone * 6.35029) + (pounds * 0.453592);
+
         heightInMeters = heightInCm * 0.01;
         bmi = weightInKg / (heightInMeters * heightInMeters);
     }
@@ -81,10 +89,11 @@ const calculateBMI = () => {
 
     let idealNumbers = '';
     if (selectedMeasurement === 'metric') {
-        idealNumbers = idealWeight.kgRange;
+        idealNumbers = `<strong>${idealWeight.kgRange}</strong>`;
     } else {
-        idealNumbers = idealWeight.stRange;
+        idealNumbers = `<strong>${idealWeight.stRange}</strong>`;
     }
+    
 
     // Determine the BMI category
     let bmiCategory = "";
@@ -102,7 +111,7 @@ const calculateBMI = () => {
     welcomeDiv.style.display = 'none';
     showResults.style.display = 'flex';
     calculatedBmi.textContent = `${bmi.toFixed(1)}`;
-    details.textContent = `Your BMI suggests you’re a ${bmiCategory}. Your ideal weight is between ${idealNumbers}`;
+    details.innerHTML = `Your BMI suggests you’re a ${bmiCategory}. Your ideal weight is between ${idealNumbers}`;
 }
 
 
@@ -119,7 +128,7 @@ updateMeasurementSystem();
 
 // Function to calculate the normal weight range based on BMI and height
 function calculateNormalWeight( height: number) {
-    // Define the lower and upper bounds of the normal BMI range
+    // Defining the lower and upper bounds of the normal BMI range
     const lowerBound = 18.5;
     const upperBound = 24.9;
 
@@ -140,7 +149,7 @@ const lowerWeightPoundsRemaining =Math.round(lowerWeightPounds % 14); // Get the
 const upperWeightSt = Math.floor(upperWeightPounds / 14); // Get the whole number of stones
 const upperWeightPoundsRemaining = Math.round(upperWeightPounds % 14);
 
-//    const stRange =`${lowerWeightSt.toFixed(2)} st - ${upperWeightSt.toFixed(2)} st`
+
 const stRange = `${lowerWeightSt}st ${lowerWeightPoundsRemaining}lbs - ${upperWeightSt}st ${upperWeightPoundsRemaining}lbs`;
 
  

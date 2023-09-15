@@ -479,6 +479,7 @@ font-weight: 700;
         overflow: hidden;
     }
 .part-two{
+    margin-top: 30rem;
     width: 100%;
 }
     .human-pic{
@@ -537,10 +538,16 @@ font-weight: 700;
     .yourBMI p{
         text-align: left;
     }
+    .measurement{
+        gap: 5rem;
+    }
     .showResults{
         flex-direction: column;
         gap: 0;
         align-items: flex-start;
+    }
+    .suggestedBMI{
+        width: 100%;
     }
     .flexMetric{
         flex-direction: column;
