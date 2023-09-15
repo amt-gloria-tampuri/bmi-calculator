@@ -37,12 +37,12 @@ const updateMeasurementSystem=()=> {
 }
 
 
-// Add event listeners
+// Event listeners to switch between radio buttons
 metricRadio.addEventListener("change", updateMeasurementSystem);
 imperialRadio.addEventListener("change", updateMeasurementSystem);
 
 
-
+//Event Listener on the form when enter is pressed
 inputForm.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
         calculateBMI();
@@ -50,7 +50,7 @@ inputForm.addEventListener("keydown", (event) => {
 });
 
 // Function to calculate BMI based on the selected measurement system
-const calculateBMI=()=> {
+const calculateBMI = () => {
     const selectedMeasurement = localStorage.getItem("selectedMeasurement");
 
     if (metricRadio.checked) {
@@ -62,68 +62,53 @@ const calculateBMI=()=> {
             return;
         }
 
-         heightInMeters = height * 0.01;
+        heightInMeters = height * 0.01;
         bmi = weight / (heightInMeters * heightInMeters);
-     calculateNormalWeight(heightInMeters);
-
-
     } else {
-        const feet = parseFloat(heightFeet.value) || 0;
-        const inches = parseFloat(heightInches.value) || 0;
-        const stone = parseFloat(weightStone.value) || 0;
-        const pounds = parseFloat(weightPounds.value) || 0;
+        const feet = parseFloat(heightFeet.value);
+        const inches = parseFloat(heightInches.value);
+        const stone = parseFloat(weightStone.value);
+        const pounds = parseFloat(weightPounds.value);
 
-            //30.48cm = 1feet ,  1nch = 2.54cm
-            //6.35kg = 1stone. 0.4536lbs = 1kg
         const heightInCm = (feet * 30.48) + (inches * 2.54);
         const weightInKg = (stone * 6.35) + (pounds * 0.4536);
-        const heightInMeters = heightInCm / 100;
-
-        bmi= weightInKg / (heightInMeters * heightInMeters);
-        calculateNormalWeight(heightInMeters);
-        console.log(calculateNormalWeight(heightInMeters));
-
+        heightInMeters = heightInCm * 0.01;
+        bmi = weightInKg / (heightInMeters * heightInMeters);
     }
-    const idealWeight =calculateNormalWeight(heightInMeters);
-    
-     // Determine the BMI category
-     let bmiCategory = "";
-     if (bmi < 18.5) {
-         bmiCategory = "Underweight";
-     } else if (bmi >= 18.5 && bmi < 25) {
-         bmiCategory = "healthy Weight";
-     } else if (bmi >= 25 && bmi < 30) {
-         bmiCategory = "Overweight";
-     } else {
-         bmiCategory = "Obese";
-     }
 
-    // Display the BMI result
+    // Now, calculate ideal weight using the calculated heightInMeters
+    const idealWeight = calculateNormalWeight(heightInMeters);
+
+    let idealNumbers = '';
+    if (selectedMeasurement === 'metric') {
+        idealNumbers = idealWeight.kgRange;
+    } else {
+        idealNumbers = idealWeight.stRange;
+    }
+
+    // Determine the BMI category
+    let bmiCategory = "";
+    if (bmi < 18.5) {
+        bmiCategory = "Underweight";
+    } else if (bmi >= 18.5 && bmi < 25) {
+        bmiCategory = "healthy Weight";
+    } else if (bmi >= 25 && bmi < 30) {
+        bmiCategory = "Overweight";
+    } else {
+        bmiCategory = "Obese";
+    }
+
+    // Display the BMI result and clear input fields
     welcomeDiv.style.display = 'none';
     showResults.style.display = 'flex';
-    metricHeight.value = '';
-    metricWeight.value = '';
-    heightFeet.value = '';
-    heightInches.value = '';
-    weightStone.value = '';
-    weightPounds.value = '';
     calculatedBmi.textContent = `${bmi.toFixed(1)}`;
-  
-
-    if (selectedMeasurement === 'metric') {
-        details.textContent = `Your BMI suggests you’re a ${bmiCategory}. Your ideal weight is between ${idealWeight.kgRange}`;
-    } else {
-        details.textContent = `Your BMI suggests you’re a ${bmiCategory}. Your ideal weight is between ${idealWeight.stRange}`;
-    }
-    
+    details.textContent = `Your BMI suggests you’re a ${bmiCategory}. Your ideal weight is between ${idealNumbers}`;
 }
+
 
 // Check local storage for the selected measurement system and set the default state
 let selectedMeasurement="metric";
-const storedMeasurement = localStorage.getItem("selectedMeasurement");
-if (storedMeasurement) {
-    selectedMeasurement = storedMeasurement;
-}
+
 if (selectedMeasurement === "metric") {
     metricRadio.checked = true;
 }
@@ -142,7 +127,7 @@ function calculateNormalWeight( height: number) {
    let lowerWeightKg = lowerBound * (height * height);
    let upperWeightKg = upperBound * (height * height);
 
-   const kgRange = `${lowerWeightKg.toFixed(1)} kg- ${upperWeightKg.toFixed(1)} kg`
+   const kgRange = `${lowerWeightKg.toFixed(1)}kg- ${upperWeightKg.toFixed(1)}kg`
 
    //Convert Kg to pounds
    const lowerWeightPounds = lowerWeightKg * 2.20462 
@@ -156,7 +141,7 @@ const upperWeightSt = Math.floor(upperWeightPounds / 14); // Get the whole numbe
 const upperWeightPoundsRemaining = Math.round(upperWeightPounds % 14);
 
 //    const stRange =`${lowerWeightSt.toFixed(2)} st - ${upperWeightSt.toFixed(2)} st`
-const stRange = `${lowerWeightSt.toFixed(0)} st ${lowerWeightPoundsRemaining.toFixed(2)} lb - ${upperWeightSt.toFixed(0)} st ${upperWeightPoundsRemaining.toFixed(2)} lb`;
+const stRange = `${lowerWeightSt}st ${lowerWeightPoundsRemaining}lbs - ${upperWeightSt}st ${upperWeightPoundsRemaining}lbs`;
 
  
    return {

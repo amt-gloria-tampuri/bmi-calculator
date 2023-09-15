@@ -149,6 +149,7 @@ transform: translateY(-3rem);
 .part-four-big{
     width: 80%;
     margin: 4rem auto;
+    margin-bottom: 6rem;
 }
 .part-four-big p{
     color: var(--electric-blue);
@@ -211,6 +212,8 @@ margin-bottom: 7rem;
 }
 .part-four-small{
     display: none;
+    margin-bottom: 6rem;
+
 }
 
 
@@ -312,7 +315,7 @@ font-weight: 700;
 }
 
 .results{
-    background-color: var(--blue);
+    background:linear-gradient(90deg,rgba(52, 95, 246, 1), rgba(88, 125, 255, 1));
     width: 100%;
     margin-top: 2rem;
     padding: 2rem;
@@ -353,6 +356,9 @@ font-weight: 700;
 }
 .yourBMI{
     width: 40% ;
+}
+.suggestedBMI{
+    width: 45%;
 }
 .BMI{
     font-size: 50px;
@@ -432,6 +438,7 @@ font-weight: 700;
     }
     .part-four-medium{
         display: block;
+        margin-bottom: 6rem;
     }
 
     .limitation{

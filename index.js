@@ -29,9 +29,10 @@ var updateMeasurementSystem = function () {
         localStorage.setItem("selectedMeasurement", "metric");
     }
 };
-// Add event listeners
+// Event listeners to switch between radio buttons
 metricRadio.addEventListener("change", updateMeasurementSystem);
 imperialRadio.addEventListener("change", updateMeasurementSystem);
+//Event Listener on the form when enter is pressed
 inputForm.addEventListener("keydown", function (event) {
     if (event.key === "Enter") {
         calculateBMI();
@@ -49,23 +50,26 @@ var calculateBMI = function () {
         }
         heightInMeters = height * 0.01;
         bmi = weight / (heightInMeters * heightInMeters);
-        calculateNormalWeight(heightInMeters);
     }
     else {
-        var feet = parseFloat(heightFeet.value) || 0;
-        var inches = parseFloat(heightInches.value) || 0;
-        var stone = parseFloat(weightStone.value) || 0;
-        var pounds = parseFloat(weightPounds.value) || 0;
-        //30.48cm = 1feet ,  1nch = 2.54cm
-        //6.35kg = 1stone. 0.4536lbs = 1kg
+        var feet = parseFloat(heightFeet.value);
+        var inches = parseFloat(heightInches.value);
+        var stone = parseFloat(weightStone.value);
+        var pounds = parseFloat(weightPounds.value);
         var heightInCm = (feet * 30.48) + (inches * 2.54);
         var weightInKg = (stone * 6.35) + (pounds * 0.4536);
-        var heightInMeters_1 = heightInCm / 100;
-        bmi = weightInKg / (heightInMeters_1 * heightInMeters_1);
-        calculateNormalWeight(heightInMeters_1);
-        console.log(calculateNormalWeight(heightInMeters_1));
+        heightInMeters = heightInCm * 0.01;
+        bmi = weightInKg / (heightInMeters * heightInMeters);
     }
+    // Now, calculate ideal weight using the calculated heightInMeters
     var idealWeight = calculateNormalWeight(heightInMeters);
+    var idealNumbers = '';
+    if (selectedMeasurement === 'metric') {
+        idealNumbers = idealWeight.kgRange;
+    }
+    else {
+        idealNumbers = idealWeight.stRange;
+    }
     // Determine the BMI category
     var bmiCategory = "";
     if (bmi < 18.5) {
@@ -80,29 +84,14 @@ var calculateBMI = function () {
     else {
         bmiCategory = "Obese";
     }
-    // Display the BMI result
+    // Display the BMI result and clear input fields
     welcomeDiv.style.display = 'none';
     showResults.style.display = 'flex';
-    metricHeight.value = '';
-    metricWeight.value = '';
-    heightFeet.value = '';
-    heightInches.value = '';
-    weightStone.value = '';
-    weightPounds.value = '';
     calculatedBmi.textContent = "".concat(bmi.toFixed(1));
-    if (selectedMeasurement === 'metric') {
-        details.textContent = "Your BMI suggests you\u2019re a ".concat(bmiCategory, ". Your ideal weight is between ").concat(idealWeight.kgRange);
-    }
-    else {
-        details.textContent = "Your BMI suggests you\u2019re a ".concat(bmiCategory, ". Your ideal weight is between ").concat(idealWeight.stRange);
-    }
+    details.textContent = "Your BMI suggests you\u2019re a ".concat(bmiCategory, ". Your ideal weight is between ").concat(idealNumbers);
 };
 // Check local storage for the selected measurement system and set the default state
 var selectedMeasurement = "metric";
-var storedMeasurement = localStorage.getItem("selectedMeasurement");
-if (storedMeasurement) {
-    selectedMeasurement = storedMeasurement;
-}
 if (selectedMeasurement === "metric") {
     metricRadio.checked = true;
 }
@@ -115,7 +104,7 @@ function calculateNormalWeight(height) {
     // Calculate the lower and upper bounds of the normal weight range in kilograms
     var lowerWeightKg = lowerBound * (height * height);
     var upperWeightKg = upperBound * (height * height);
-    var kgRange = "".concat(lowerWeightKg.toFixed(1), " kg- ").concat(upperWeightKg.toFixed(1), " kg");
+    var kgRange = "".concat(lowerWeightKg.toFixed(1), "kg- ").concat(upperWeightKg.toFixed(1), "kg");
     //Convert Kg to pounds
     var lowerWeightPounds = lowerWeightKg * 2.20462;
     var upperWeightPounds = upperWeightKg * 2.20462;
@@ -126,7 +115,7 @@ function calculateNormalWeight(height) {
     var upperWeightSt = Math.floor(upperWeightPounds / 14); // Get the whole number of stones
     var upperWeightPoundsRemaining = Math.round(upperWeightPounds % 14);
     //    const stRange =`${lowerWeightSt.toFixed(2)} st - ${upperWeightSt.toFixed(2)} st`
-    var stRange = "".concat(lowerWeightSt.toFixed(0), " st ").concat(lowerWeightPoundsRemaining.toFixed(2), " lb - ").concat(upperWeightSt.toFixed(0), " st ").concat(upperWeightPoundsRemaining.toFixed(2), " lb");
+    var stRange = "".concat(lowerWeightSt, "st ").concat(lowerWeightPoundsRemaining, "lbs - ").concat(upperWeightSt, "st ").concat(upperWeightPoundsRemaining, "lbs");
     return {
         kgRange: kgRange,
         stRange: stRange
